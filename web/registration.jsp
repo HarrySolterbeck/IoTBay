@@ -3,7 +3,7 @@
     Created on : Mar 22, 2024, 4:31:16 PM
     Author     : JGPar
 --%>
-
+<%@page import="uts.iot.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="uts.iot.connection.ConnectionDB"%>
 <% ConnectionDB db = new ConnectionDB();%>
 <!DOCTYPE html>
@@ -29,9 +29,7 @@
             <input type="reset" value="Reset"><br>
             <a href="index.jsp"><button>Cancel</button></a>
         </form>
-            
-            
-            <%= db.getCon() %>
+}  
         </div>
         
     </body>

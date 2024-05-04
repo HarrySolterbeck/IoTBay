@@ -12,6 +12,6 @@ import java.sql.*;
 public class ConnectionDB {
     public static Connection getCon() throws ClassNotFoundException, SQLException{
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/users?zeroDateTimeBehavior=CONVERT_TO_NULL","root","L3g3nd211");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/users?useSSL=false","root","L3g3nd211");
     }
 }
