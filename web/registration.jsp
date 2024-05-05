@@ -29,7 +29,6 @@
             <input type="reset" value="Reset"><br>
             <a href="index.jsp"><button>Cancel</button></a>
         </form>
-}  
         </div>
         
     </body>

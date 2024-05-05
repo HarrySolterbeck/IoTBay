@@ -1,0 +1,87 @@
+CREATE TABLE User
+    (CustomerID     int     NOT NULL,
+    UserName        VARCHAR(255)    ,
+    Email       VARCHAR(255)    ,
+    FName   VARCHAR(255)    ,
+    LName   VARCHAR(255)    ,
+    Adress  VARCHAR(255)    ,
+    City    VARCHAR(255)    ,
+    PostCode    VARCHAR(255)    ,
+    PhoneNum   int     ,
+    PWord    VARCHAR(255)    ,
+    Gender    VARCHAR(255)    ,
+    DOB     DATE    ,
+CONSTRAINT User_PK PRIMARY KEY (CustomerID));
+
+CREATE TABLE Category
+    (CategoryID     int     NOT NULL    ,
+    CategoryName    VARCHAR(255)    ,
+    CategoryDescription    VARCHAR(255)    ,
+CONSTRAINT Category_PK PRIMARY KEY (CategoryID));
+
+CREATE TABLE Vendors
+    (VendorID   int     NOT NULL    ,
+    VendorPhone     int     ,
+    VendorName    VARCHAR(255)    ,
+    VendorAddress    VARCHAR(255)    ,
+CONSTRAINT Vendors_PK PRIMARY KEY (VendorID));
+
+CREATE TABLE Payments
+    (PaymentID  int     NOT NULL    ,
+    PaymentDate     DATE    ,
+    PaymentMethod    VARCHAR(255)    ,
+    PayableAmount   DOUBLE      ,
+    CardProvider    VARCHAR(255)    ,
+    PaymentStatus   ENUM('Pending','Failed','Complete')     ,
+CONSTRAINT Payments_PK PRIMARY KEY (PaymentID));
+
+CREATE TABLE Shipping
+    (ShippingID     int     NOT NULL    ,
+    OrderID     int     NOT NULL    ,
+    ShippingAddress    VARCHAR(255)    ,
+    EstimatedDeliveryDate   DATE    ,
+    ShippingStatus  ENUM('Shipping','Delivered','Not Yet Sent') ,
+    TrackingNumber    VARCHAR(255)    ,
+    Carrier    VARCHAR(255)    ,
+CONSTRAINT Shipping_PK PRIMARY KEY (ShippingID));
+
+CREATE TABLE OrderForm
+    (OrderID    int     NOT NULL    ,
+    CustomerID     int     NOT NULL    ,
+    PaymentID   int     NOT NULL     ,
+    ShippingID      int     NOT NULL    ,
+    OrderDate   DATE    ,
+    OrderStatus    VARCHAR(255)    ,
+CONSTRAINT OrderForm_PK PRIMARY KEY (OrderID, CustomerID, PaymentID, ShippingID)   ,
+CONSTRAINT OrderForm_FK1 FOREIGN KEY (CustomerID) REFERENCES User (CustomerID)  ,
+CONSTRAINT OrderForm_FK2 FOREIGN KEY (PaymentID) REFERENCES Payments (PaymentID)    ,
+CONSTRAINT OrderForm_FK3 FOREIGN KEY (ShippingID) REFERENCES Shipping (ShippingID));
+
+CREATE TABLE Orders
+    (OrderID    int     NOT NULL    ,
+    ProductID   int     NOT NULL    ,
+    TotalAmount     DOUBLE      ,
+CONSTRAINT Orders_PK PRIMARY KEY (OrderID, ProductID)   ,
+CONSTRAINT Orders_FK1 FOREIGN KEY (OrderID) REFERENCES OrderForm (OrderID)  ,
+CONSTRAINT Orders_FK2 FOREIGN KEY (ProductID) REFERENCES Products (ProductID));
+
+CREATE TABLE Products
+    (ProductID      int     NOT NULL    ,
+    VendorID    int     NOT NULL    ,
+    CategoryID      int     NOT NULL    ,
+    ProductName    VARCHAR(255)    ,
+    ProductDescription    VARCHAR(255)    ,
+    MarketPrice     DOUBLE  ,
+    WholeSalePrice  DOUBLE  ,
+CONSTRAINT Products_PK PRIMARY KEY (ProductID, VendorID,CategoryID)   ,
+CONSTRAINT Products_FK1 FOREIGN KEY (VendorID) REFERENCES Vendors (VendorID)    ,
+CONSTRAINT Products_FK2 FOREIGN KEY (CategoryID) REFERENCES Category (CategoryID));
+
+CREATE TABLE Inventory
+    (InventoryID    int     NOT NULL    ,
+    ProductID   int     NOT NULL    ,
+    WarehouseLocation    VARCHAR(255)    ,
+    StockAvailable      BIT     ,
+    StockQuantity   int     ,
+CONSTRAINT Inventory_PK PRIMARY KEY (InventoryID, ProductID)    ,
+CONSTRAINT Inventory_FK1 FOREIGN KEY (ProductID) REFERENCES Products (ProductID));
