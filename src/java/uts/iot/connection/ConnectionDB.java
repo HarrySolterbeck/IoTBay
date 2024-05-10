@@ -10,8 +10,14 @@ import java.sql.*;
  * @author Joshua
  */
 public class ConnectionDB {
-    public static Connection getCon() throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/users?useSSL=false","root","L3g3nd211");
+    public static Connection getCon() {
+        Connection Conn = null;
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?useSSL=false","root","L3g3nd211");
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return Conn;
     }
 }
